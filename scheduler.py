@@ -16,6 +16,13 @@ user_email = input("enter email: ")
 user_password = input("enter password: ")
 message = input("enter message: ")
 recipient = input("enter recipient's full name: ")
+send_time_input = input("enter send date and time (24h); in the format mm/dd/yyyy hh:mm:ss: ")
+send_time = datetime.datetime.strptime(send_time_input, '%m/%d/%Y %H:%M:%S')
+curr_time = datetime.datetime.now()
+
+if send_time <= curr_time:
+    print("datetime cannot be in the past")
+    send_time_input = input("enter send date and time (24h); in the format mm/dd/yyyy hh:mm:ss: ")
 
 email_field.send_keys(user_email)
 password_field.send_keys(user_password)
@@ -39,10 +46,13 @@ if current_chat_name != recipient:
 actions.send_keys(message)
 actions.send_keys(Keys.ENTER)
 
-curr_time = datetime.datetime.now()
-send_time = datetime.datetime(2020, 8, 9, 11, 8)
-while curr_time < send_time:
-    curr_time = datetime.datetime.now()
-    print(curr_time)
-actions.perform()
 
+
+
+while curr_time < send_time:
+    print("time until send: " + str(send_time - curr_time).split('.')[0])
+    curr_time = datetime.datetime.now()
+    time.sleep(1)
+
+actions.perform()
+print("message sent")
